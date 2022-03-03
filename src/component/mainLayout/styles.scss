@@ -1,0 +1,24 @@
+.main {
+  height: 100vh;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    9deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(19, 19, 70, 1) 57%,
+    rgba(56, 56, 128, 1) 100%
+  );
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+
+  .content {
+    background-color: rgba(255, 255, 255, 0.692);
+    width: 80%;
+    border-radius: 16px;
+    display: flex;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow: auto;
+  }
+}

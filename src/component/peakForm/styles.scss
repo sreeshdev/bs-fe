@@ -1,0 +1,27 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 16px;
+  min-width: 25%;
+  max-width: 25%;
+  padding: 1rem;
+  row-gap: 1rem;
+  flex: 1 auto;
+  margin-bottom: 1rem;
+  .css-78me8v-MuiFormControl-root {
+    margin: 0 !important;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+  header {
+    color: rgb(7, 27, 141);
+    font-weight: 800;
+  }
+  .subButton {
+    background-color: rgb(7, 27, 141);
+  }
+}

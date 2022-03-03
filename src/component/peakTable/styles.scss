@@ -1,0 +1,30 @@
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 16px;
+  width: 60%;
+  padding: 1rem;
+  flex: 1 auto;
+  margin-bottom: 1rem;
+}
+.pagination {
+  margin: 1rem 1rem 1rem 0;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+.tableTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.customBut {
+  background-color: rgb(7, 27, 141) !important;
+  margin-right: 1rem !important;
+}
+.customButOutline {
+  border-color: rgb(7, 27, 141) !important;
+  color: rgb(7, 27, 141) !important;
+}
