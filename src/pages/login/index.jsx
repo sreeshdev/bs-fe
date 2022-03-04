@@ -23,12 +23,13 @@ const Login = () => {
         email: value.email,
         password: value.password,
       });
+
       console.log(response);
       navigate("/dashboard");
       submitted(true);
     } catch (err) {
-      toast.error(err.message);
-      submitted(true);
+      toast.error(err);
+      submitted(false);
     }
   };
   const login = async (value, submitted) => {
@@ -37,12 +38,12 @@ const Login = () => {
         email: value.email,
         password: value.password,
       });
-      console.log(response);
       navigate("/dashboard");
       submitted(true);
     } catch (err) {
-      toast.error(err.message);
-      submitted(true);
+      console.log("safa", err);
+      toast.error(err);
+      submitted(false);
     }
   };
   return (

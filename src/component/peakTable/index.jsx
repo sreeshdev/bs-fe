@@ -51,7 +51,7 @@ const PeakTable = ({ rows, getAlert, editAlert }) => {
         getAlert();
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err);
       });
   };
   const handlePageChange = (event, value) => {

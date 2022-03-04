@@ -51,7 +51,9 @@ const PeakForm = ({ getAlert, editRow, editData, setEditData, setEditRow }) => {
       }
       submitted(false);
       getAlert();
-    } catch (err) {}
+    } catch (err) {
+      toast.error(err);
+    }
   };
   return (
     <div className="formContainer">
