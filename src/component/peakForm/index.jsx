@@ -88,7 +88,7 @@ const PeakForm = ({ getAlert, editRow, editData, setEditData, setEditRow }) => {
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit} className="form">
-            <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+            <FormControl sx={{ width: "100%" }} variant="outlined">
               <InputLabel htmlFor="name">Name</InputLabel>
               <OutlinedInput
                 id="name"
@@ -122,7 +122,7 @@ const PeakForm = ({ getAlert, editRow, editData, setEditData, setEditRow }) => {
                 />
               </RadioGroup>
             </FormControl>
-            <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+            <FormControl sx={{ width: "100%" }} variant="outlined">
               <InputLabel htmlFor="value">Value</InputLabel>
               <OutlinedInput
                 id="value"
@@ -154,7 +154,7 @@ const PeakForm = ({ getAlert, editRow, editData, setEditData, setEditRow }) => {
                 <MenuItem value={"sun"}>Sunday</MenuItem>
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+            <FormControl sx={{ width: "100%" }} variant="outlined">
               <InputLabel htmlFor="email">Email</InputLabel>
               <OutlinedInput
                 id="email"
@@ -167,7 +167,7 @@ const PeakForm = ({ getAlert, editRow, editData, setEditData, setEditRow }) => {
                 {errors.email && touched.email && errors.email}
               </label>
             </FormControl>
-            <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+            <FormControl sx={{ width: "100%" }} variant="outlined">
               <InputLabel htmlFor="value">Phone</InputLabel>
               <OutlinedInput
                 id="phone"
