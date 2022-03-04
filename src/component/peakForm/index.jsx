@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormControl from "@mui/material/FormControl";
@@ -11,19 +11,54 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Formik } from "formik";
-const PeakForm = () => {
-  return (
-    <div className="formContainer">
-      <header>Create Alert</header>
-      <Formik
-        initialValues={{
+import alert from "../../services/alertServices";
+import { toast } from "react-toastify";
+const PeakForm = ({ getAlert, editRow, editData, setEditData, setEditRow }) => {
+  const [initialValue, setInitialValue] = useState({
+    name: "",
+    criteria: "GT",
+    value: 0,
+    days: "all",
+    email: "",
+    phone: "",
+  });
+  useEffect(() => {
+    console.log(editData, editRow);
+    if (editRow) {
+      setInitialValue(editData);
+    }
+  }, [editRow, editData]);
+  const submitForm = async (value, submitted) => {
+    try {
+      if (editRow) {
+        const response = await alert.updateAlert({
+          ...value,
+        });
+        setEditRow(false);
+        setEditData({});
+        setInitialValue({
           name: "",
           criteria: "GT",
           value: 0,
           days: "all",
           email: "",
           phone: "",
-        }}
+        });
+      } else {
+        const response = await alert.createAlert({
+          ...value,
+        });
+      }
+      submitted(false);
+      getAlert();
+    } catch (err) {}
+  };
+  return (
+    <div className="formContainer">
+      <header>Create Alert</header>
+      <Formik
+        enableReinitialize={true}
+        initialValues={initialValue}
         validate={(values) => {
           const errors = {};
           if (!values.email) {
@@ -37,10 +72,7 @@ const PeakForm = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values));
-            setSubmitting(false);
-          }, 400);
+          submitForm(values, setSubmitting);
         }}
       >
         {({
@@ -104,7 +136,12 @@ const PeakForm = () => {
             </FormControl>
             <FormControl fullWidth>
               <InputLabel>Days</InputLabel>
-              <Select value={values.days} label="Days" onChange={handleChange}>
+              <Select
+                value={values.days}
+                label="Days"
+                name="days"
+                onChange={handleChange}
+              >
                 <MenuItem value={"all"}>Everyday</MenuItem>
                 <MenuItem value={"mon"}>Monday</MenuItem>
                 <MenuItem value={"tue"}>Tuesday</MenuItem>
@@ -141,8 +178,13 @@ const PeakForm = () => {
                 {errors.phone && touched.phone && errors.phone}
               </label>
             </FormControl>
-            <Button type="submit" variant="contained" className="subButton">
-              Submit
+            <Button
+              type="submit"
+              variant="contained"
+              className="subButton"
+              disabled={isSubmitting}
+            >
+              {editRow ? "Update" : "Save"}
             </Button>
           </form>
         )}

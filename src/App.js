@@ -5,6 +5,7 @@ import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import MainLayout from "./component/mainLayout";
 import PeakAlert from "./pages/peakAlert";
+import Ventilation from "./pages/ventilation";
 function App() {
   return (
     <Router>
@@ -14,7 +15,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/peakAlert" element={<PeakAlert />} />
-          <Route exact path="/ventilation" element={<Dashboard />} />
+          <Route exact path="/ventilation" element={<Ventilation />} />
           <Route exact path="/cooling" element={<Dashboard />} />
           <Route exact path="/heatPump" element={<Dashboard />} />
         </Route>

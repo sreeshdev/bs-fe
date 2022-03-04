@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,7 +14,16 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Button from "@mui/material/Button";
-const PeakTable = () => {
+import alert from "../../services/alertServices";
+import { toast } from "react-toastify";
+const PeakTable = ({ rows, getAlert, editAlert }) => {
+  const page_size = 5;
+  const [pageContent, setpageContent] = useState([]);
+  useEffect(() => {
+    if (rows.length) {
+      setpageContent(rows.slice(0, page_size));
+    }
+  }, [rows]);
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -34,17 +43,21 @@ const PeakTable = () => {
       border: 0,
     },
   }));
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-  ];
+  const deleteAlert = (row) => {
+    console.log(row);
+    alert
+      .deleteAlert({ id: row.id })
+      .then((res) => {
+        getAlert();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handlePageChange = (event, value) => {
+    console.log(value);
+    setpageContent(rows.slice((value - 1) * page_size, value * page_size));
+  };
   return (
     <div className="tableContainer">
       <div className="tableTopBar">
@@ -65,39 +78,52 @@ const PeakTable = () => {
           <TableHead>
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell>Price Signal</StyledTableCell>
               <StyledTableCell>Criteria</StyledTableCell>
-              <StyledTableCell align="right">Value</StyledTableCell>
+              <StyledTableCell>Value</StyledTableCell>
               <StyledTableCell>Email</StyledTableCell>
+              <StyledTableCell>Phone</StyledTableCell>
               <StyledTableCell>Active Days</StyledTableCell>
               <StyledTableCell>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {pageContent.map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
-                <StyledTableCell>{row.calories}</StyledTableCell>
-                <StyledTableCell>{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell>{row.protein}</StyledTableCell>
-                <StyledTableCell>{row.protein}</StyledTableCell>
+                <StyledTableCell>{row.criteria}</StyledTableCell>
+                <StyledTableCell align="right">{row.value}</StyledTableCell>
+                <StyledTableCell>{row.email}</StyledTableCell>
+                <StyledTableCell>{row.phone}</StyledTableCell>
+                <StyledTableCell>{row.days}</StyledTableCell>
                 <StyledTableCell>
-                  <EditIcon className="clickable" />
-                  <DeleteIcon className="clickable" />
+                  <EditIcon
+                    className="clickable"
+                    onClick={() => editAlert(row)}
+                  />
+                  <DeleteIcon
+                    className="clickable"
+                    onClick={() => deleteAlert(row)}
+                  />
                 </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <div className="pagination">
-        <Stack spacing={2}>
-          <Pagination count={10} variant="outlined" shape="rounded" />
-        </Stack>
-      </div>
+      {rows.length > 5 && (
+        <div className="pagination">
+          <Stack spacing={2}>
+            <Pagination
+              count={rows.length % 5}
+              variant="outlined"
+              shape="rounded"
+              onChange={handlePageChange}
+            />
+          </Stack>
+        </div>
+      )}
     </div>
   );
 };

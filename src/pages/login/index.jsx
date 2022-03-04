@@ -9,10 +9,42 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import { Formik } from "formik";
+import auth from "../../services/authServices";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  let navigate = useNavigate();
   const [signUpContent, setSignUpContent] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const signup = async (value, submitted) => {
+    try {
+      const response = await auth.signup({
+        email: value.email,
+        password: value.password,
+      });
+      console.log(response);
+      navigate("/dashboard");
+      submitted(true);
+    } catch (err) {
+      toast.error(err.message);
+      submitted(true);
+    }
+  };
+  const login = async (value, submitted) => {
+    try {
+      const response = await auth.login({
+        email: value.email,
+        password: value.password,
+      });
+      console.log(response);
+      navigate("/dashboard");
+      submitted(true);
+    } catch (err) {
+      toast.error(err.message);
+      submitted(true);
+    }
+  };
   return (
     <div className="mainContainer">
       {signUpContent ? (
@@ -35,10 +67,7 @@ const Login = () => {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values));
-                setSubmitting(false);
-              }, 400);
+              signup(values, setSubmitting);
             }}
           >
             {({
@@ -127,7 +156,12 @@ const Login = () => {
                     {errors.password && touched.password && errors.password}
                   </label>
                 </FormControl>
-                <Button type="submit" variant="contained" className="logButton">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className="logButton"
+                  disabled={isSubmitting}
+                >
                   Signup
                 </Button>
               </form>
@@ -158,10 +192,7 @@ const Login = () => {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
+              login(values, setSubmitting);
             }}
           >
             {({
@@ -218,7 +249,12 @@ const Login = () => {
                     {errors.password && touched.password && errors.password}
                   </label>
                 </FormControl>
-                <Button type="submit" variant="contained" className="logButton">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className="logButton"
+                  disabled={isSubmitting}
+                >
                   Login
                 </Button>
               </form>
